@@ -75,7 +75,8 @@ jobs:
         run: go install github.com/securego/gosec/v2/cmd/gosec@latest
         
       - name: Run gosec
-        run: gosec -no-fail -exclude-dir=vendor ./...
+        # -no-fail flag 
+        run: gosec -exclude-dir=vendor ./...
         
       - name: Install nancy
         run: go install github.com/sonatype-nexus-community/nancy@latest
