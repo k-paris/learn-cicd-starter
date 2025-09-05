@@ -21,3 +21,74 @@ jobs:
 
     - name: Tests
       run: go test -cover ./...
+
+    - name: Install gosec
+      run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+        
+    - name: gosec
+      # -no-fail flag 
+      run: gosec -exclude-dir=vendor ./...
+
+  style:
+    name: Style
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: "1.23.0"
+
+    - name: Check PWD
+      run: pwd
+
+    - name: Check formatting
+      run: |
+        test -z $(go fmt ./...)
+        UNFORMATTED=$(go fmt ./...)
+        if [ ! -z "$UNFORMATTED" ]; then
+          echo "The following files need formatting:"
+          echo "$UNFORMATTED"
+          echo "Please run 'go fmt ./...' locally"
+          # Optional: Remove the line below if you don't want the pipeline to fail
+          exit 1
+        else
+          echo "✅ Code formatting is correct"
+        fi
+
+    - name: Install static-check
+      run: go install honnef.co/go/tools/cmd/staticcheck@latest
+
+    - name: Run staticcheck
+      run: staticcheck ./... 
+
+  security:
+    name: Security Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.0"
+
+      - name: Install gosec
+        run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+        
+      - name: Run gosec
+        # -no-fail flag 
+        run: gosec -exclude-dir=vendor ./...
+        
+      - name: Install nancy
+        run: go install github.com/sonatype-nexus-community/nancy@latest
+        
+      - name: Check dependencies
+        run: go list -json -deps ./... | nancy sleuth
+
+    
