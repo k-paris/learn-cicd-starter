@@ -93,7 +93,7 @@ func main() {
 		Addr:    ":" + port,
 		Handler: router,
 		// set timeout
-		ReadTimeout: 10 * time.Second,
+		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
 
