@@ -51,3 +51,9 @@ jobs:
         else
           echo "✅ Code formatting is correct"
         fi
+
+    - name: Install static-check
+      run: go install honnef.co/go/tools/cmd/staticcheck@latest
+
+    - name: Run staticcheck
+      run: staticcheck ./...
