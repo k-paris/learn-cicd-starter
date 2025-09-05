@@ -47,4 +47,6 @@ jobs:
           echo "Please run 'go fmt ./...' locally"
           # Optional: Remove the line below if you don't want the pipeline to fail
           exit 1
+        else
+          echo "✅ Code formatting is correct"
         fi
