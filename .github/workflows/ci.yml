@@ -39,4 +39,12 @@ jobs:
       run: pwd
 
     - name: Check formatting
-      run: test -z $(go fmt ./...)
+      run: |
+        UNFORMATTED=$(go fmt ./...)
+        if [ ! -z "$UNFORMATTED" ]; then
+          echo "The following files need formatting:"
+          echo "$UNFORMATTED"
+          echo "Please run 'go fmt ./...' locally"
+          # Optional: Remove the line below if you don't want the pipeline to fail
+          exit 1
+        fi
