@@ -1,6 +1,6 @@
 name: evets
 
-run-name: Contexts | DEBUT - ${{ inputs.debug }}
+run-name: Contexts | DEBUG - ${{ inputs.debug }}
 
 on: 
   push:
