@@ -1,51 +1,31 @@
-name: evets
-
-run-name: Inputs | DEBUG - ${{ inputs.debug }}
-
-env:
-  WORKFLOW_VAR: 'Hello from Workflow'
+name: Inputs
+run-name: Inputs | DEBUG - ${{ inputs.debug }} | run number - ${{ github.run_number }} 
 
 on: 
-  # push:
-  # pull_request:
-  # schedule:
-  #   - cron: '*/5 * * * *'
+  push:
   workflow_dispatch:
     inputs:
       debug:
         description: 'Enable debug mode'
         type: boolean
-        default: true
+        default: false
+        
 
 jobs:
-  
-  echo-data:
+
+  echo:
     runs-on: ubuntu-latest
-    env:
-      JOB_VAR: 'Hello from Job'
-
     steps:
-      - name: Display All Environment Variables
-        env:
-          STEP_VAR: 'Hello from Step'
+      - name: '[debug] Print start-up data'
+        if: ${{ inputs.debug }}
         run: |
-          echo "Displaying all environment variables:"
-          echo "Workflow Variable: ${{ env.WORKFLOW_VAR }}"
-          echo "Job Variable: ${{ env.JOB_VAR }}"
-          echo "Step Variable: $STEP_VAR"
-      - name: Echo event name
-        run: |
-          echo "Event name is ${{ github.event_name }}"
-          echo "Ref is ${{ github.ref }}"
-          echo "Repository is ${{ github.repository }}"
-          echo "Actor is ${{ github.actor }}"
-          echo "Workflow is ${{ github.workflow }}"
-          echo "Event action is ${{ github.event.action || 'N/A' }}"
-          echo "Run Id is ${{ github.run_id }}"
-          echo "Run number is ${{ github.run_number }}"
-          echo "SHA is ${{ github.sha }}"
-
-
-      - name: Retrieve Variables
-        run: |
-          echo "Variable value: ${{ vars.TEST_VAR }}"
+          echo "Triggered by: ${{ github.enet_name }}"
+          echo "Branch:       ${{ github.ref }}"
+          echo "Commit SHA:   ${{ github.sha }}"
+          echo "Runners OS:   ${{ runner.os }}"
+          echo "Repository:   ${{ github.repository }}"
+          echo "Actor:        ${{ github.actor }}"
+          echo "Event Action: ${{ github.event.action || 'N/A' }}"
+          echo "Event Name:   ${{ github.event_name }}"
+          echo "Run ID:       ${{ github.run_id }}"
+          echo "Run Number:   ${{ github.run_number }}"

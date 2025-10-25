@@ -6,7 +6,7 @@ on:
   push:
   workflow_dispatch:
   
-# workflow level vars (global)
+
 env:
   MY_WORKFLOW_VAR: "workflow-spec-var"
   MY_VAR_1: "workflow-var1"
