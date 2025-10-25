@@ -2,7 +2,7 @@ name: Inputs
 run-name: Inputs | DEBUG - ${{ inputs.debug }} | run number - ${{ github.run_number }} 
 
 env:
-  PUSH_DEBUG: false
+  PUSH_DEBUG: "false"
 
 on: 
   push:
