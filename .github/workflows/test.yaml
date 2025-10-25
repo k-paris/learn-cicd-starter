@@ -1,4 +1,4 @@
-name: triggers
+name: evets
 
 on: 
   push:
@@ -9,9 +9,24 @@ on:
 
 jobs:
 
-  echo:
+  
+  echo-data:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Show the trigger
-        run: echo "Triggered by a(n) ${{ github.event_name  }} event."
+      - name: Echo event name
+        run: |
+          echo "Event name is ${{ github.event_name }}"
+          echo "Ref is ${{ github.ref }}"
+          echo "Repository is ${{ github.repository }}"
+          echo "Actor is ${{ github.actor }}"
+          echo "Workflow is ${{ github.workflow }}"
+          echo "Event action is ${{ github.event.action || 'N/A' }}"
+          echo "Run Id is ${{ github.run_id }}"
+          echo "Run number is ${{ github.run_number }}"
+          echo "SHA is ${{ github.sha }}"
+
+
+      - name: Retrieve Variables
+        run: |
+          echo "Variable value: ${{ vars.TEST_VAR }}"
