@@ -12,7 +12,7 @@ on:
       debug:
         description: 'Enable debug mode'
         type: boolean
-        default: false
+        default: true
 
 jobs:
 
