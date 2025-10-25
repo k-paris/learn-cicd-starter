@@ -1,6 +1,9 @@
 name: Inputs
 run-name: Inputs | DEBUG - ${{ inputs.debug }} | run number - ${{ github.run_number }} 
 
+env:
+  PUSH_DEBUG: false
+
 on: 
   push:
   workflow_dispatch:
@@ -17,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: '[debug] Print start-up data'
-        if: ${{ inputs.debug }}
+        if: ${{ inputs.debug }} || env.PUSH_DEBUG == 'true'
         run: |
-          echo "Triggered by: ${{ github.enet_name }}"
+          echo "Triggered by: ${{ github.event_name }}"
           echo "Branch:       ${{ github.ref }}"
           echo "Commit SHA:   ${{ github.sha }}"
           echo "Runners OS:   ${{ runner.os }}"
