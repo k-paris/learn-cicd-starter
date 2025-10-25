@@ -1,0 +1,36 @@
+name: Variables
+
+run-name: Variables 
+
+on:
+  push:
+  workflow_dispatch:
+  
+# workflow level vars (global)
+env:
+  MY_WORKFLOW_VAR: "workflow-spec-var"
+  MY_VAR_1: "workflow-var1"
+  MY_VAR_2: "workflow-var2"
+  MY_VAR_3: "workflow-var3"
+  
+jobs:
+
+  job-1:
+    runs-on: ubuntu-latest
+    env:
+      MY_JOB_VAR: "job-spes-var"
+      MY_VAR_1: "job-var1"
+      MY_VAR_2: "job-var2"
+    steps:
+      
+      - name: Display All Vars
+        env:
+          MY_STEP_VAR: "step-spec-var"
+          MY_VAR_2: 'step-var2'
+        run: |
+          echo "Workflow env: ${{ env.MY_WORKFLOW_VAR }}"
+          echo "Job env: ${{ env.MY_JOB_VAR }}"
+          echo "Step env: ${{ env.MY_STEP_VAR }}"
+          echo "VAR-1: ${{ env.MY_VAR_1 }}"
+          echo "VAR-2: ${{ env.MY_VAR_2 }}"
+          echo "VAR-3: ${{ env.MY_VAR_3 }}"

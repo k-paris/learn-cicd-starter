@@ -2,9 +2,12 @@ name: evets
 
 run-name: Inputs | DEBUG - ${{ inputs.debug }}
 
+env:
+  WORKFLOW_VAR: 'Hello from Workflow'
+
 on: 
-  push:
-  pull_request:
+  # push:
+  # pull_request:
   # schedule:
   #   - cron: '*/5 * * * *'
   workflow_dispatch:
@@ -15,12 +18,21 @@ on:
         default: true
 
 jobs:
-
   
   echo-data:
     runs-on: ubuntu-latest
-    steps:
+    env:
+      JOB_VAR: 'Hello from Job'
 
+    steps:
+      - name: Display All Environment Variables
+        env:
+          STEP_VAR: 'Hello from Step'
+        run: |
+          echo "Displaying all environment variables:"
+          echo "Workflow Variable: ${{ env.WORKFLOW_VAR }}"
+          echo "Job Variable: ${{ env.JOB_VAR }}"
+          echo "Step Variable: $STEP_VAR"
       - name: Echo event name
         run: |
           echo "Event name is ${{ github.event_name }}"
