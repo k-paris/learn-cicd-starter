@@ -10,14 +10,41 @@ jobs:
     outputs:
       BUILD_STATUS: ${{ steps.build-outcome.outputs.status }}
     steps:
+
+      - name: Print GITHUB_OUTPUT path
+        run: |
+          echo "$GITHUB_OUTPUT"
+
       - name: Build Step
+        id: build-step
         run: |
           echo "Simulating a build process..."
           # Simulate build logic here
-          
+          # Uncomment next line to simulate failure
+          # exit 1
           
       - name: Build Outcome
         id: build-outcome
+        if: ${{ !cancelled() }}
+        # step.<name>.outcome - refer to the outcome of a step that has run previously in a job (success, failure, cancelled, skipped, or neutral)
         run: |
-          echo "::set-output name=status::success"
+          if [ "${{ steps.build-step.outcome }}" == "success" ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+          fi
           
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: Display Build Status
+        run: |
+          echo "Build Status from previous job: ${{ needs.build.outputs.BUILD_STATUS }}"
+          if [ "${{ needs.build.outputs.BUILD_STATUS }}" == "success" ]; then
+            echo "Proceeding with deployment..."
+            # Deployment logic here
+          else
+            echo "Build failed. Skipping deployment."
+          fi
