@@ -3,7 +3,7 @@ name: Variables
 run-name: Variables 
 
 on:
-  push:
+  #push:
   workflow_dispatch:
   
 
