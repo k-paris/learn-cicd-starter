@@ -1,0 +1,23 @@
+name: Outputs
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      BUILD_STATUS: ${{ steps.build-outcome.outputs.status }}
+    steps:
+      - name: Build Step
+        run: |
+          echo "Simulating a build process..."
+          # Simulate build logic here
+          
+          
+      - name: Build Outcome
+        id: build-outcome
+        run: |
+          echo "::set-output name=status::success"
+          
