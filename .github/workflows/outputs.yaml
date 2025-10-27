@@ -2,7 +2,14 @@ name: Outputs
 
 on: 
   workflow_dispatch:
-
+    inputs:
+      build-status:
+        type: choice
+        options:
+          - '0'
+          - '1'
+        default: '0'
+        description: 'Simulate build status (success/failure)'
 jobs:
   
   build:
@@ -20,8 +27,8 @@ jobs:
         run: |
           echo "Simulating a build process..."
           # Simulate build logic here
-          # Uncomment next line to simulate failure
-          exit 1
+          # 
+          exit ${{ inputs['build-status'] }}
           
       - name: Build Outcome
         id: build-outcome
