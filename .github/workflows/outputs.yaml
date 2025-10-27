@@ -21,7 +21,7 @@ jobs:
           echo "Simulating a build process..."
           # Simulate build logic here
           # Uncomment next line to simulate failure
-          # exit 1
+          exit 1
           
       - name: Build Outcome
         id: build-outcome
